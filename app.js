@@ -12,11 +12,17 @@ angular.module('masonryApp', ['masonryLayout', 'infinite-scroll'])
 
 }])
 
-.controller("LoadImages", ['$scope', '$interval', function($scope, $interval) {
+.controller("LoadImages", ['$scope', '$interval', '$timeout', function($scope, $interval, $timeout) {
 
     var busy = false,
         stop;
     $scope.images = [];
+
+    $scope.refresh = function() {
+        $scope.images.length = 0;
+
+        $timeout(function() { $scope.fetchNext(); }, 1000);
+    };
 
     $scope.fetchNext = function() {
 

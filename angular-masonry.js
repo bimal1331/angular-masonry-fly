@@ -87,9 +87,7 @@ angular.module('masonryLayout', [])
 
 .directive('masonryLayout', ['$window', 'masonryService', function($window, masonryService) {
 
-	var imagesLoadCount = 0,
-		totalItemCount = 0,
-		dimensions = masonryService.dimensions(),
+	var dimensions = masonryService.dimensions(),
 		yMargin = dimensions.yMargin,
 		xMargin = dimensions.xMargin,
 		marginWidth = dimensions.marginWidth,
@@ -100,7 +98,9 @@ angular.module('masonryLayout', [])
 	return {
 		restrict: 'A',
 
-		link: function(scope, element, attrs) {
+		require: '^masonryResize',
+
+		link: function(scope, element, attrs, ctrl) {
 
 			var imageElem = element.find('img'),
 				tallestColumn, homeColumn, newLeft, newTop, newWidth;
@@ -116,7 +116,7 @@ angular.module('masonryLayout', [])
 				
 				element[0].style.cssText += "; left: " + newLeft + "px; top: " + newTop + "px;";
 
-				if(++imagesLoadCount === totalItemCount) {
+				if(++ctrl.imagesLoadCount === ctrl.totalItemCount) {
 					//this is the last image loaded
 					//correct parent height
 					console.log('Correcting parent height')
@@ -131,7 +131,7 @@ angular.module('masonryLayout', [])
 			}
 
 			if(scope.$last) {
-				totalItemCount = scope.$index + 1;
+				ctrl.totalItemCount = scope.$index + 1;
 				element.parent()[0].style.height = masonryService.tallest() + (masonryService.docHeight()) + 'px'; 
 			}
 
@@ -139,7 +139,7 @@ angular.module('masonryLayout', [])
 			imageElem.on('load', repaint);
 
 			imageElem.on('error', function() {
-				imagesLoadCount++;
+				ctrl.imagesLoadCount++;
 			});
 
 		}
@@ -154,7 +154,14 @@ angular.module('masonryLayout', [])
 	return {
 		restrict: 'A',
 
-		link: function(scope, element, attrs) {
+		controller: ['$scope', function($scope) {
+
+			this.imagesLoadCount = 0;
+			this.totalItemCount = 0;
+
+		}],
+
+		link: function(scope, element, attrs, ctrl) {
 
 			var imageContainers, container, homeColumn, newLeft, newTop;
 
@@ -191,14 +198,21 @@ angular.module('masonryLayout', [])
 
 			};
 
-			scope.$watch('images.length', function(newCount, oldCount) {
-				
-				if(newCount === 0) {
-					element[0].style.height = 0;
-					masonryService.init();
-				}
+			scope.$watch(
+				function() {
+					return element[0].children.length;
+				}, 
+				function(newCount, oldCount) {
+					
+					if(newCount === 0) {
+						element[0].style.height = 0;
+						ctrl.totalItemCount = 0;
+						ctrl.imagesLoadCount = 0;
+						masonryService.init();
+					}
 
-			});
+				}
+			);
 
 			angular.element($window).on('resize', repaint);
 

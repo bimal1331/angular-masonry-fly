@@ -10,6 +10,10 @@
 </head>
 <body data-ng-controller="LoadImages">
 
+	<div>
+		<button  style="position: relative; left: 45%; height: 40px;" ng-click="refresh()">New page</button>
+	</div>
+
 	<div infinite-scroll="fetchNext()" infinite-scroll-distance="1">
 		<div data-masonry-resize style="margin-top:30px; position:relative; padding-left:23px; padding-right:23px;">
 			<div data-ng-repeat="image in images" data-masonry-layout style="position:absolute; border:1px solid black;">

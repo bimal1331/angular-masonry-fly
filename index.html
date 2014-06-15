@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html ng-app="masonryApp">
+<head>
+	<title>Image Gallery</title>
+	<script src="jquery.min.js"></script>
+	<script src="angular.min.js"></script>
+	<script src="ng-infinite-scroll.min.js"></script>
+	<script src="angular-masonry.js"></script>
+	<script src="app.js"></script>
+</head>
+<body data-ng-controller="LoadImages">
+
+	<div infinite-scroll="fetchNext()" infinite-scroll-distance="1">
+		<div data-masonry-resize style="margin-top:30px; position:relative; padding-left:23px; padding-right:23px;">
+			<div data-ng-repeat="image in images" data-masonry-layout style="position:absolute; border:1px solid black;">
+
+				<!-- <a href="" style="position:absolute; left:0; right:0; top:0; bottom:0;"> -->
+					<img ng-src="images/{{image.src}}">
+				<!-- </a> -->
+				
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

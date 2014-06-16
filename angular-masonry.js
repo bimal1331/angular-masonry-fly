@@ -139,7 +139,7 @@ angular.module('masonryLayout', [])
 			};
 
 			this.docHeight = function() {
-				return $window.innerHeight * $rootScope.masonryData.falseDocumentHeight;
+				return $window.innerHeight * 2.5;
 			};	
 
 		}],

@@ -6,7 +6,6 @@ angular.module('masonryApp', ['masonryLayout', 'infinite-scroll'])
 		xMargin : 30,
 		yMargin : 40,
 		imgWidth : 323,
-		containerPadding : 23,
         falseDocumentHeight : 3
 	};
 
@@ -15,6 +14,8 @@ angular.module('masonryApp', ['masonryLayout', 'infinite-scroll'])
 .controller("LoadImages", ['$scope', '$interval', '$timeout', function($scope, $interval, $timeout) {
 
     var busy = false,
+        heights = [254, 300, 192, 450, 350, 200, 360, 420, 270, 400, 200],
+        cats = ['abstract', 'animals', 'business', 'cats', 'city', 'food', 'nightlife', 'fashion', 'people', 'nature', 'sports', 'transport'],
         stop;
     $scope.images = [];
 
@@ -25,6 +26,7 @@ angular.module('masonryApp', ['masonryLayout', 'infinite-scroll'])
     };
 
     $scope.fetchNext = function() {
+        var i=0;
 
         if(!busy) {
             console.log('Fetching next')
@@ -32,24 +34,12 @@ angular.module('masonryApp', ['masonryLayout', 'infinite-scroll'])
 
             for(var i=0; i<30; i++) {
                 $scope.images.push({
-                    src: i + '.jpg'
+                    src: '323/' + heights[i % heights.length] + '/' + cats[Math.floor(Math.random() * cats.length )]
                 });    
             }
 
             busy = false;
 
-            // stop = $interval(function() {
-            
-            //     $scope.images.push({
-            //         src: i + '.jpg'
-            //     });
-
-            //     if(i++ === 29) {
-            //         busy = false;
-            //         $interval.cancel(stop);
-            //     } 
-                   
-            // }, 250);
         }
 
     };   

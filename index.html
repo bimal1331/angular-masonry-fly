@@ -8,18 +8,18 @@
 	<script src="angular-masonry.js"></script>
 	<script src="app.js"></script>
 </head>
-<body data-ng-controller="LoadImages">
+<body data-ng-controller="LoadImages" style="margin: 0 25px 0; padding: 0 15px 0;">
 
 	<div>
 		<button  style="position: relative; left: 45%; height: 40px;" ng-click="refresh()">New page</button>
 	</div>
 
 	<div infinite-scroll="fetchNext()" infinite-scroll-distance="1">
-		<div data-masonry-resize style="margin-top:30px; position:relative; padding-left:23px; padding-right:23px;">
-			<div data-ng-repeat="image in images" data-masonry-layout style="position:absolute; border:1px solid black;">
+		<div data-masonry-resize style="margin:30px 20px 0; padding: 0 10px 0">
+			<div data-ng-repeat="image in images" data-masonry-layout style="border:1px solid black;">
 
 				<!-- <a href="" style="position:absolute; left:0; right:0; top:0; bottom:0;"> -->
-					<img ng-src="images/{{image.src}}">
+					<img ng-src="http://lorempixel.com/{{image.src}}">
 				<!-- </a> -->
 				
 			</div>

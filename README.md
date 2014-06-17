@@ -15,6 +15,10 @@ INSTALLATION :-
 1) Download angular-masonry.min.js and include it with your JS files.
 2) Include module 'masonryLayout' in your main app module.
 
+or
+
+use [Bower](http://bower.io/) to install `bower install angular-masonry-fly`
+
 USAGE :-
 1) In your app's 'RUN block', connfigure masonry module like below -
 	$rootScope.masonryData = {
@@ -35,9 +39,8 @@ USAGE :-
 			<!-- <a href="" style="position:absolute; left:0; right:0; top:0; bottom:0;"> -->
 				<img ng-src="http://lorempixel.com/{{image.src}}">
 			<!-- </a> -->
-			
+
 		</div>
 	</div>
 
 That's it!
-

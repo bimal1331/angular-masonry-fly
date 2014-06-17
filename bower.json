@@ -1,0 +1,28 @@
+{
+  "name": "angular-masonry-fly",
+  "version": "1.0.01",
+  "authors": [
+    "Bimal Kumar"
+  ],
+  "main": [
+    "angular-masonry.min.js"
+  ],
+  "description": "AngularJS directive which generates a masonry layout image by image without the need to know each individual height",
+  "keywords": [
+    "AngularJs",
+    "masonry",
+    "images",
+    "html"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "images"
+  ],
+  "dependencies": {
+    "angular": "~1.2.17"
+  },
+  "devDependencies": {
+		"jquery": "~2.1.1",
+		"ngInfiniteScroll": "~1.1.2"
+  }
+}

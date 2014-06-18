@@ -1,38 +1,42 @@
 angular-masonry-fly
-===================
-No need to know images height or wait for all images to download, this genrates layout image by image
-===============
-1) Generates masonry(pinterest type) layout. Works with infinite scroll too. Works on window resizing too. See the demo.
-2) No need to know images height or wait for all images to download.
+-------------------
+####Generates masonry layout image by image without knowing their height or waiting for all images to load.
 
-DEMO :-
++ Works with infinite scroll and window resizing.
++ No need to know images height or wait for all images to download.
+
+#####DEMO
 http://bimal1331.github.io/angular-masonry-fly
 
-REQUIREMENTS :-
-1) Angularjs only
+#####REQUIREMENTS
++ Angularjs 1.2+ only
 
-INSTALLATION :-
-1) Download angular-masonry.min.js and include it with your JS files.
-2) Include module 'masonryLayout' in your main app module.
+#####INSTALLATION
++ Download angular-masonry.min.js and include it with your JS files.
++ Include module 'masonryLayout' in your main app module.
 
 or
 
 use [Bower](http://bower.io/) to install `bower install angular-masonry-fly`
 
-USAGE :-
-1) In your app's 'RUN block', connfigure masonry module like below -
+#####USAGE
+1. In your app's 'RUN block', connfigure masonry module like below -
+
+	```js
 	$rootScope.masonryData = {
 		xMargin : 30,
 		yMargin : 40,
 		imgWidth : 323
 	};
+	```
 
-	where xMargin - Horizontal gap between image containers
-		  yMargin - Vertical gap between image containers
-		  imgWidth - Image width you'll be using for the layout, ideally should be image's natural width
+	+ xMargin - Horizontal gap between image containers
+	+ yMargin - Vertical gap between image containers
+	+ imgWidth - Image width you'll be using for the layout, ideally should be image's natural width
 
-2) Use directives 'data-masonry-layout' & 'data-masonry-resize' like below -
+2. Use directives 'data-masonry-layout' & 'data-masonry-resize' like below -
 
+	```html
 	<div data-masonry-resize style="margin:30px 20px 0; padding: 0 10px 0">
 		<div data-ng-repeat="image in images" data-masonry-layout style="border:1px solid black;">
 
@@ -42,5 +46,6 @@ USAGE :-
 
 		</div>
 	</div>
+	```
 
 That's it!

@@ -1,73 +1,6 @@
 angular.module('masonryLayout', [])
 
-.directive('masonryLayout', ['$window', function($window) {
-
-	var dimensions, yMargin, xMargin, marginWidth, imgWidth, containers, midContainer, parentContainer, containerHeight, pageHeight;
-
-	function initialise() {
-		yMargin = dimensions.yMargin;
-		xMargin = dimensions.xMargin;
-		marginWidth = dimensions.marginWidth;
-		imgWidth = dimensions.imgWidth;
-		containers = dimensions.containers;
-	}
-
-	return {
-		restrict: 'A',
-
-		require: '^masonryResize',
-
-		link: function(scope, element, attrs, ctrl) {
-
-			var imageElem = element.find('img'),
-				tallestColumn, homeColumn, newLeft, newTop, newWidth;
-
-			element[0].style.cssText += "; left: -999px; top: -999px; opacity: 0; position:absolute; "
-
-			var repaint = function() {
-			
-				homeColumn = ctrl.shortest();				
-				tallestColumn = ctrl.tallest();
-				newLeft = homeColumn*(imgWidth + xMargin) + marginWidth;
-				newTop = containers[homeColumn];
-
-				ctrl.update(homeColumn, element[0].scrollHeight + yMargin);
-				
-				element[0].style.cssText += "; left: " + newLeft + "px; top: " + newTop + "px; opacity: 1;";
-
-				if(++ctrl.imagesLoadCount === ctrl.totalItemCount) {
-					//this is the last image loaded
-					//correct parent height
-					console.log('Correcting parent height')
-					element.parent()[0].style.height = ctrl.tallest() + 'px';
-				}
-
-			};			
-
-			//Reset container height to 0 on view change(images count = 0)
-			if(scope.$index === 0) {
-				dimensions = ctrl.dimensions();
-				initialise();
-				containerHeight = 0;
-			}
-
-			if(scope.$last) {
-				ctrl.totalItemCount = scope.$index + 1;
-				element.parent()[0].style.height = ctrl.tallest() + (ctrl.docHeight()) + 'px'; 
-			}
-
-			//Set item position
-			imageElem.on('load', repaint);
-
-			imageElem.on('error', function() {
-				ctrl.imagesLoadCount++;
-			});
-
-		}
-	}
-}])
-
-.directive('masonryResize', ['$window', '$rootScope', function($window, $rootScope) {
+.directive('masonry', ['$window', '$rootScope', function($window, $rootScope) {
 
 	var resizing = false,
 		dimensions;
@@ -79,6 +12,20 @@ angular.module('masonryLayout', [])
 		CONTAINER_PADDING_X = masonryData.containerPadding,
 		windowWidth = $window.innerWidth,
 		containerWidth, columns, dynamicImageWidth, marginWidth, containers, i, n;	
+
+	var yMargin, xMargin, marginWidth, imgWidth, midContainer, parentContainer, containerHeight, pageHeight;
+
+	function initialise() {
+		yMargin = dimensions.yMargin;
+		xMargin = dimensions.xMargin;
+		marginWidth = dimensions.marginWidth;
+		imgWidth = dimensions.imgWidth;
+		containers = dimensions.containers;
+	}
+
+	function Wall() {
+		
+	}
 
 	return {
 		restrict: 'A',
@@ -180,21 +127,65 @@ angular.module('masonryLayout', [])
 
 			};
 
+			var repaintBrick = function(brick) {
+			
+				homeColumn = ctrl.shortest();				
+				tallestColumn = ctrl.tallest();
+				newLeft = homeColumn*(imgWidth + xMargin) + marginWidth;
+				newTop = containers[homeColumn];
+
+				ctrl.update(homeColumn, brick.scrollHeight + yMargin);
+				
+				brick.style.cssText += "; left: " + newLeft + "px; top: " + newTop + "px;";
+
+				if(++ctrl.imagesLoadCount === ctrl.totalItemCount) {
+					//this is the last image loaded
+					//correct parent height
+					console.log('Correcting parent height')
+					element[0].style.height = ctrl.tallest() + 'px';
+				}
+
+			};
+
 			scope.$watch(
 				function() {
 					return element[0].children.length;
 				}, 
 				function(newCount, oldCount) {
+
+					console.log(oldCount, newCount)
+					if(newCount === oldCount) return;
 					
-					if(newCount === 0) {
+					if(oldCount === 0) {
 						element[0].style.height = 0;
 						ctrl.totalItemCount = 0;
 						ctrl.imagesLoadCount = 0;
+						ctrl.reset();
 						ctrl.init();
+
+						dimensions = ctrl.dimensions();
+						initialise();
+					}
+
+					ctrl.totalItemCount = newCount;
+					element[0].style.height = ctrl.tallest() + (ctrl.docHeight()) + 'px'; 
+
+					for(var i = oldCount; i < newCount; i++) {
+						attachListener(element[0].children[i]);
+
+						
 					}
 
 				}
 			);
+
+			function attachListener(brick) {
+				brick.style.cssText += "; left: -999px; top: -999px; position:absolute; ";
+
+						brick.getElementsByTagName('img')[0].addEventListener('load', function() {
+							repaintBrick(brick);
+						});
+			}
 
 			angular.element($window).on('resize', repaint);
 
@@ -205,8 +196,8 @@ angular.module('masonryLayout', [])
 
 			element[0].style.position = 'relative';
 
-			ctrl.reset();
-			ctrl.init();
+			// ctrl.reset();
+			// ctrl.init();
 
 		}
 	}

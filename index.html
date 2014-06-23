@@ -15,8 +15,8 @@
 	</div>
 
 	<div infinite-scroll="fetchNext()" infinite-scroll-distance="1">
-		<div data-masonry-resize style="margin:30px 20px 0; padding: 0 10px 0">
-			<div data-ng-repeat="image in images" data-masonry-layout style="border:1px solid black;">
+		<div data-masonry style="margin:30px 20px 0; padding: 0 10px 0">
+			<div data-ng-repeat="image in images" style="border:1px solid black;">
 
 				<!-- <a href="" style="position:absolute; left:0; right:0; top:0; bottom:0;"> -->
 					<img ng-src="http://lorempixel.com/{{image.src}}">

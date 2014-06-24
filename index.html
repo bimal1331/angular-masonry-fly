@@ -14,14 +14,19 @@
 		<button  style="position: relative; left: 45%; height: 40px;" ng-click="refresh()">New page</button>
 	</div>
 
-	<div infinite-scroll="fetchNext()" infinite-scroll-distance="1">
-		<div data-masonry-resize style="margin:30px 20px 0; padding: 0 10px 0">
-			<div data-ng-repeat="image in images" data-masonry-layout style="border:1px solid black;">
-
-				<!-- <a href="" style="position:absolute; left:0; right:0; top:0; bottom:0;"> -->
+	<div infinite-scroll="fetchNext()" infinite-scroll-distance="1" style="display:inline-block; width:100%; height:100%">
+		<div data-masonry data-x-margin="20" data-y-margin="30" data-img-width="250" style="margin:3% 2% 0 2%; padding: 20px 1% 0; border:1px solid black; width:43%; float:left;">
+			<div data-ng-repeat="image in images" style="border:1px solid black; border-radius:5px; padding:1px;">
 					<img ng-src="http://lorempixel.com/{{image.src}}">
-				<!-- </a> -->
+				<div>Foo Bar</div>
 				
+			</div>
+		</div>
+
+		<div data-masonry data-x-margin="20" data-y-margin="30" data-img-width="150" style="margin:3% 2% 0 2%; padding: 0 1% 0; border:1px solid black; width:43%; float:right;">
+			<div data-ng-repeat="image in images2" style="border:1px solid black; border-radius:5px; padding:1px;">
+					<img ng-src="http://lorempixel.com/{{image.src}}">
+				<div>Foo Bar</div>				
 			</div>
 		</div>
 	</div>
